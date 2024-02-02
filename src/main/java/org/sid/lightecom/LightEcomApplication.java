@@ -16,6 +16,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -40,19 +41,34 @@ public class LightEcomApplication implements CommandLineRunner {
 	}
 	
 	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
+	CorsConfigurationSource corsConfigurationSource1() {
 		  CorsConfiguration configuration = new CorsConfiguration();
 		  configuration.setAllowedOrigins(Arrays.asList("*"));
 		  configuration.setAllowedMethods(Arrays.asList("*"));
-		  configuration.setAllowCredentials(true);
+		 // configuration.setAllowCredentials(true);
 		  configuration.setAllowedHeaders(Arrays.asList("*"));
 		 //  configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
 		  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		  source.registerCorsConfiguration("/**", configuration);
+
+
 		  return source;
 
 	}
-
+	//@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsRegistry registry=new CorsRegistry();
+		CorsConfiguration configuration = new CorsConfiguration();
+		registry.addMapping("/**");
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"));
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type","Content-type"));
+		configuration.setExposedHeaders(Arrays.asList("X-Get-Header"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 	@Override
 	public void run(String... args) throws Exception {
 		this.restConfiguration.exposeIdsFor(Product.class, Category.class,

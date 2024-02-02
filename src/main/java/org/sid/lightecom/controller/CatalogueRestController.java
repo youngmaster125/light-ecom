@@ -43,7 +43,7 @@ public class CatalogueRestController {
 
 
     }
-@PostMapping("/uploadPhoto/{id}")
+    @PostMapping("/uploadPhoto/{id}")
    public void uploadPhoto(MultipartFile file,@PathVariable Long id) throws  Exception {
             System.out.println(file.getOriginalFilename());
             Product p=this.productRepository.findById(id).orElse(new Product());

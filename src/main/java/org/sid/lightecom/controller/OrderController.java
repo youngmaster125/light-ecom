@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -23,6 +24,7 @@ public class OrderController {
     private OrderRepository orderRepository;
     private ClientRepository clientRepository;
     private OrderItemRepository orderItemRepository;
+
 
 
     public OrderController(ProductRepository productRepository, OrderRepository orderRepository, ClientRepository clientRepository, OrderItemRepository orderItemRepository) {
@@ -39,6 +41,7 @@ public class OrderController {
     client.setEmail(orderForm.getClient().getEmail());
     client.setAdresse(orderForm.getClient().getAdresse());
     client.setPhoneNumber(orderForm.getClient().getPhoneNumber());
+    
     client.setUsername(orderForm.getClient().getUsername());
     this.clientRepository.save(client);
     System.out.println(client.getId());
